@@ -9,37 +9,27 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="6" class="px-8">
-          <v-card color="#1c5cac" class="white--text">
+        <v-col cols="6" class="px-8" v-for="circuito in circuitos" :key="circuito.id">
+          <v-card :color="circuito.estado == 1 ? '#1c5cac' : 'grey darken-2'" class="white--text">
             <v-row justify="center" class="pa-0 ma-0">
               <v-card-title>
-                Iluminação sala
+                {{ circuito.circuito }}
               </v-card-title>
             </v-row>
 
             <v-row class="pa-0 ma-0">
               <v-col class="d-flex justify-center">
-                <v-btn icon color="success" x-large>
+                <v-btn icon :color="circuito.estado == 1 ? 'success' : 'error'" x-large @click="changeCircuito(circuito)">
                   <v-icon>mdi-power-standby</v-icon>
                 </v-btn>
               </v-col>
-              
-              
+
+
             </v-row>
           </v-card>
         </v-col>
 
         <v-spacer></v-spacer>
-
-        <v-col cols="6" class="px-8">
-          <v-card color="grey darken-2" class="white--text">
-            <v-row justify="center" class="pa-0 ma-0">
-              <v-card-title>
-                Ventilador quarto
-              </v-card-title>
-            </v-row>
-          </v-card>
-        </v-col>
       </v-row>
     </v-card>
   </v-container>
@@ -47,11 +37,32 @@
 
 <script>
 export default {
+  created() {
+    this.$store.dispatch('getCircuitos')
+    console.log(this.circuitos)
+  },
   data() {
     return {
-      switch1: true,
+
     }
   },
+  methods: {
+    corCard(state) {
+      let corCard = state == 1 ? '#1c5cac' : 'grey darken-2'
+      return corCard
+    },
+    changeCircuito(circuito) {
+      this.$store.dispatch('changeCircuito', {
+        id: circuito.id,
+        estado: !circuito.estado,
+      })
+    }
+  },
+  computed: {
+    circuitos() {
+      return this.$store.getters.circuitos
+    },
+  }
 }
 </script>
 
