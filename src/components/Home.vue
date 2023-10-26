@@ -1,16 +1,19 @@
 <template>
   <v-container>
-    <v-card elevation="20" class="mt-5">
+    <v-card elevation="20" class="mt-5 mb-5">
       <v-row>
         <v-col class="d-flex justify-center">
           <v-card-title class="text-center">
-            Automação residencial
+            Automação Residencial
           </v-card-title>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="6" class="px-8" v-for="circuito in circuitos" :key="circuito.id">
           <v-card :color="circuito.estado == 1 ? '#1c5cac' : 'grey darken-2'" class="white--text">
+              <span class="caption ml-3">
+                {{ circuito.estado == 1 ? 'ON' : 'OFF' }}
+              </span>
             <v-row justify="center" class="pa-0 ma-0">
               <v-card-title>
                 {{ circuito.circuito }}
@@ -38,13 +41,7 @@
 <script>
 export default {
   created() {
-    this.$store.dispatch('getCircuitos')
-    console.log(this.circuitos)
-  },
-  data() {
-    return {
-
-    }
+    this.$store.dispatch('getCircuitos')    
   },
   methods: {
     corCard(state) {
